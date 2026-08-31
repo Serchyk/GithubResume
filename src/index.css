@@ -1,0 +1,17 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+body {
+  @apply bg-[#08080a] text-zinc-300 antialiased selection:bg-violet-500/30;
+  font-family: var(--font-sans);
+}
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-thumb { @apply bg-zinc-700 rounded-full; }
+::-webkit-scrollbar-track { @apply bg-transparent; }
