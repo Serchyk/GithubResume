@@ -1,6 +1,24 @@
 import { useEffect, useState } from "react"
 import { experiences, petProjects, profile, projects, skills, education } from "./data"
 
+const ALLOWED_DOMAINS = (import.meta.env.VITE_ALLOWED_DOMAINS || "").split(",").filter(Boolean)
+
+function DomainGuard({ children }: { children: React.ReactNode }) {
+  if (ALLOWED_DOMAINS.length > 0 && !ALLOWED_DOMAINS.includes(location.hostname)) {
+    return (
+      <div className="min-h-screen bg-[#08080a] flex items-center justify-center p-6">
+        <div className="text-center max-w-md">
+          <div className="text-6xl mb-4">🚫</div>
+          <h1 className="text-2xl font-bold text-white mb-2">Доступ запрещён</h1>
+          <p className="text-zinc-400 text-sm">Этот сайт привязан к конкретному домену и не может быть размещён на другом ресурсе.</p>
+          <p className="text-zinc-600 text-xs mt-4">Licensed to: {ALLOWED_DOMAINS[0]}</p>
+        </div>
+      </div>
+    )
+  }
+  return <>{children}</>
+}
+
 function ContactModal({ open, onClose }: { open: boolean; onClose: () => void }) {
   useEffect(() => {
     if (!open) return
@@ -401,16 +419,18 @@ export default function App() {
   const handlePrint = () => window.print()
 
   return (
-    <div id="resume-root" className="min-h-screen bg-[#08080a] print-bg-white">
-      <PrintHeader />
-      <Header onContact={()=>setContactOpen(true)} onPrint={handlePrint} />
-      <Hero onContact={()=>setContactOpen(true)} onPrint={handlePrint} />
-      <ExperienceSection />
-      <ProjectsSection onPrint={handlePrint} />
-      <Skills />
-      <EducationSection />
-      <Footer onContact={()=>setContactOpen(true)} />
-      <ContactModal open={contactOpen} onClose={()=>setContactOpen(false)} />
-    </div>
+    <DomainGuard>
+      <div id="resume-root" className="min-h-screen bg-[#08080a] print-bg-white">
+        <PrintHeader />
+        <Header onContact={()=>setContactOpen(true)} onPrint={handlePrint} />
+        <Hero onContact={()=>setContactOpen(true)} onPrint={handlePrint} />
+        <ExperienceSection />
+        <ProjectsSection onPrint={handlePrint} />
+        <Skills />
+        <EducationSection />
+        <Footer onContact={()=>setContactOpen(true)} />
+        <ContactModal open={contactOpen} onClose={()=>setContactOpen(false)} />
+      </div>
+    </DomainGuard>
   )
 }
