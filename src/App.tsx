@@ -52,22 +52,45 @@ function ContactModal({ open, onClose }: { open: boolean; onClose: () => void })
   )
 }
 
-function Header({ onContact }: { onContact: () => void }) {
+function PrintHeader() {
+  return (
+    <div className="print-only max-w-[1120px] mx-auto px-6 pt-4 pb-3 border-b-2 border-zinc-900">
+      <div className="flex justify-between items-start gap-6">
+        <div>
+          <div className="text-[22px] font-extrabold tracking-tight text-zinc-900 leading-none">{profile.name}</div>
+          <div className="text-sm text-zinc-700 mt-1 font-medium">{profile.role} • {profile.specialization} • {profile.city}</div>
+          <div className="text-xs text-zinc-600 mt-1">Опыт 9 лет 1 мес • {profile.format} • {profile.salary} {profile.salaryNote} • {profile.age} лет</div>
+          <div className="text-xs text-zinc-600 mt-1">Рассматриваю: {profile.relocation.slice(0,8).join(", ")} и др. • {profile.citizenship}</div>
+        </div>
+        <div className="text-right text-xs leading-relaxed text-zinc-700 shrink-0">
+          <div><span className="font-semibold">Тел:</span> {profile.phone}</div>
+          <div><span className="font-semibold">Почта:</span> {profile.email} ★</div>
+          <div><span className="font-semibold">Telegram:</span> {profile.telegram.replace("https://","")}</div>
+          <div><span className="font-semibold">GitHub:</span> github.com/Serchyk</div>
+          <div className="text-[10px] text-zinc-500 mt-1">Обновлено 31.08.2026 • weap4@yandex.ru — предпочитаемый</div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function Header({ onContact, onPrint }: { onContact: () => void; onPrint: () => void }) {
   const [open, setOpen] = useState(false)
   return (
-    <header className="sticky top-0 z-50 backdrop-blur-xl bg-[#08080a]/70 border-b border-white/[0.06]">
+    <header className="sticky top-0 z-50 backdrop-blur-xl bg-[#08080a]/70 border-b border-white/[0.06] no-print">
       <div className="max-w-[1120px] mx-auto px-4 sm:px-6 h-[56px] flex items-center justify-between">
         <a href="#" className="flex items-center gap-3">
           <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-violet-600 to-fuchsia-500 grid place-items-center text-white font-black text-sm">SA</div>
           <span className="font-semibold tracking-tight text-white hidden sm:block">Сергей Андреев</span>
           <span className="text-xs px-2 py-1 rounded-full bg-white/10 text-zinc-300 border border-white/10 hidden md:inline">Fullstack</span>
         </a>
-        <nav className="hidden md:flex items-center gap-6 text-sm">
-          <a href="#experience" className="text-zinc-400 hover:text-white transition">Опыт</a>
-          <a href="#projects" className="text-zinc-400 hover:text-white transition">Проекты</a>
-          <a href="#skills" className="text-zinc-400 hover:text-white transition">Навыки</a>
-          <a href="#contacts" className="text-zinc-400 hover:text-white transition">Контакты</a>
-          <button onClick={onContact} className="px-4 py-2 rounded-full bg-white text-black font-medium hover:bg-zinc-200 transition">Написать</button>
+        <nav className="hidden md:flex items-center gap-2.5 text-sm">
+          <a href="#experience" className="text-zinc-400 hover:text-white transition px-2">Опыт</a>
+          <a href="#projects" className="text-zinc-400 hover:text-white transition px-2">Проекты</a>
+          <a href="#skills" className="text-zinc-400 hover:text-white transition px-2">Навыки</a>
+          <span className="w-px h-5 bg-white/10 mx-1" />
+          <button onClick={onPrint} className="px-3.5 py-2 rounded-full bg-white/10 border border-white/10 text-white hover:bg-white/15 transition text-xs" title="Открыть диалог печати браузера (Ctrl+P)">🖨️ Печать</button>
+          <button onClick={onContact} className="px-4 py-2 rounded-full bg-white text-black font-medium hover:bg-zinc-200 transition ml-1">Написать</button>
         </nav>
         <button onClick={() => setOpen(!open)} className="md:hidden w-9 h-9 rounded-xl bg-white/10 grid place-items-center text-white">☰</button>
       </div>
@@ -76,7 +99,7 @@ function Header({ onContact }: { onContact: () => void }) {
           <a onClick={() => setOpen(false)} href="#experience" className="text-zinc-300">Опыт</a>
           <a onClick={() => setOpen(false)} href="#projects" className="text-zinc-300">Проекты</a>
           <a onClick={() => setOpen(false)} href="#skills" className="text-zinc-300">Навыки</a>
-          <a onClick={() => setOpen(false)} href="#contacts" className="text-zinc-300">Контакты</a>
+          <button onClick={()=>{ onPrint() }} className="px-3 py-2 rounded-full bg-white/10 border border-white/10 text-white text-sm">🖨️ Печать</button>
           <button onClick={()=>{ setOpen(false); onContact() }} className="px-4 py-2 rounded-full bg-white text-black font-medium text-left">Написать</button>
         </div>
       )}
@@ -84,13 +107,13 @@ function Header({ onContact }: { onContact: () => void }) {
   )
 }
 
-function Hero({ onContact }: { onContact: () => void }) {
+function Hero({ onContact, onPrint }: { onContact: () => void; onPrint: () => void }) {
   const [showCities, setShowCities] = useState(false)
   return (
-    <section className="relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-violet-600/20 via-transparent to-transparent pointer-events-none" />
-      <div className="absolute -top-24 -right-24 w-[600px] h-[600px] bg-fuchsia-500/20 blur-[120px] rounded-full pointer-events-none" />
-      <div className="absolute -top-10 -left-20 w-[500px] h-[500px] bg-blue-500/15 blur-[120px] rounded-full pointer-events-none" />
+    <section className="relative overflow-hidden print:hidden">
+      <div className="absolute inset-0 bg-gradient-to-b from-violet-600/20 via-transparent to-transparent pointer-events-none print:hidden" />
+      <div className="absolute -top-24 -right-24 w-[600px] h-[600px] bg-fuchsia-500/20 blur-[120px] rounded-full pointer-events-none print:hidden" />
+      <div className="absolute -top-10 -left-20 w-[500px] h-[500px] bg-blue-500/15 blur-[120px] rounded-full pointer-events-none print:hidden" />
       <div className="max-w-[1120px] mx-auto px-4 sm:px-6 pt-10 sm:pt-16 pb-8 relative">
         <div className="grid lg:grid-cols-[1.15fr_0.85fr] gap-8 items-start">
           <div>
@@ -106,30 +129,38 @@ function Hero({ onContact }: { onContact: () => void }) {
             <p className="mt-4 text-[15px] leading-relaxed text-zinc-400 max-w-[60ch]">{profile.about}</p>
             <p className="mt-3 text-[14px] leading-relaxed text-zinc-500 max-w-[60ch] hidden sm:block">{profile.aboutLong}</p>
 
-            <div className="mt-6 flex flex-wrap gap-3">
+            <div className="mt-6 flex flex-wrap gap-3 no-print">
               <button onClick={onContact} className="px-5 py-3 rounded-full bg-white text-black font-semibold hover:bg-zinc-200 transition text-sm">Написать</button>
-              <a href={`tel:${profile.phone.replace(/[^+0-9]/g,"")}`} className="px-5 py-3 rounded-full bg-white/10 text-white border border-white/15 hover:bg-white/15 transition text-sm font-medium">Позвонить {profile.phone}</a>
+              <button onClick={onPrint} className="px-5 py-3 rounded-full bg-white/10 text-white border border-white/15 hover:bg-white/15 transition text-sm font-medium">🖨️ Печать</button>
               <a href={profile.github} target="_blank" className="px-5 py-3 rounded-full bg-white/10 text-white border border-white/15 hover:bg-white/15 transition text-sm font-medium flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-white/80" /> GitHub — github.com/Serchyk
+                <span className="w-2 h-2 rounded-full bg-white/80" /> GitHub
               </a>
+            </div>
+            <div className="print-only mt-4 text-xs text-zinc-700 border border-zinc-200 rounded-xl p-3 bg-zinc-50">
+              <div className="font-semibold text-zinc-900">Контакты для печати:</div>
+              <div>Тел {profile.phone} • Почта {profile.email} ★ • Telegram t.me/serchy_k • GitHub github.com/Serchyk</div>
+              <div className="text-zinc-500 mt-1">Для связи: Telegram @serchy_k или почта — отвечу в течение дня</div>
             </div>
 
             <div className="mt-6 flex flex-wrap gap-2 text-xs">
-              <span className="px-3 py-1.5 rounded-full bg-white text-black font-bold">{profile.salary} <span className="font-normal text-zinc-600">{profile.salaryNote}</span></span>
+              <span className="px-3 py-1.5 rounded-full bg-white text-black font-bold border border-zinc-200">{profile.salary} <span className="font-normal text-zinc-600">{profile.salaryNote}</span></span>
               <span className="px-3 py-1.5 rounded-full bg-zinc-900 border border-white/10 text-zinc-300">Опыт 9 лет 1 месяц</span>
               <span className="px-3 py-1.5 rounded-full bg-zinc-900 border border-white/10 text-zinc-300">Мужчина, {profile.age} лет</span>
-              <button onClick={()=>setShowCities(!showCities)} className="px-3 py-1.5 rounded-full bg-zinc-900 border border-white/10 text-zinc-300 hover:bg-zinc-800 transition">Рассматриваю работу {showCities ? "▲" : "▼"}</button>
+              <button onClick={()=>setShowCities(!showCities)} className="px-3 py-1.5 rounded-full bg-zinc-900 border border-white/10 text-zinc-300 hover:bg-zinc-800 transition no-print">Рассматриваю работу {showCities ? "▲" : "▼"}</button>
             </div>
             {showCities && (
-              <div className="mt-3 p-3 rounded-2xl bg-zinc-900 border border-white/10 text-xs leading-relaxed text-zinc-400">
+              <div className="mt-3 p-3 rounded-2xl bg-zinc-900 border border-white/10 text-xs leading-relaxed text-zinc-400 no-print">
                 Рассматриваю работу в: {profile.relocation.join(" • ")} • готов к командировкам • {profile.citizenship}
               </div>
             )}
+            <div className="print-only mt-3 p-2.5 rounded-xl border border-zinc-200 bg-zinc-50 text-xs leading-relaxed text-zinc-600">
+              Рассматриваю работу в: {profile.relocation.join(" • ")} • готов к командировкам
+            </div>
           </div>
 
           <div className="relative lg:sticky lg:top-[80px]">
             <div className="rounded-[28px] bg-gradient-to-b from-zinc-900 to-[#0f0f12] border border-white/10 p-5 sm:p-6 shadow-2xl overflow-hidden relative">
-              <div className="absolute inset-0 bg-gradient-to-br from-violet-600/10 to-transparent pointer-events-none" />
+              <div className="absolute inset-0 bg-gradient-to-br from-violet-600/10 to-transparent pointer-events-none print:hidden" />
               <div className="relative flex gap-4">
                 <div className="w-[84px] h-[84px] rounded-2xl bg-gradient-to-br from-violet-600 to-fuchsia-600 grid place-items-center text-white font-black text-2xl shrink-0">СА</div>
                 <div>
@@ -143,7 +174,7 @@ function Hero({ onContact }: { onContact: () => void }) {
                 </div>
               </div>
 
-              <div className="relative mt-5 grid grid-cols-3 gap-3 text-center">
+              <div className="relative mt-5 grid grid-cols-2 gap-3 text-center">
                 <div className="rounded-2xl bg-white/[0.06] border border-white/10 p-3">
                   <div className="text-xl font-extrabold text-white">9+</div>
                   <div className="text-[11px] text-zinc-400 leading-tight">лет опыта</div>
@@ -152,19 +183,15 @@ function Hero({ onContact }: { onContact: () => void }) {
                   <div className="text-xl font-extrabold text-white">8</div>
                   <div className="text-[11px] text-zinc-400 leading-tight">крупных проектов</div>
                 </div>
-                <div className="rounded-2xl bg-white/[0.06] border border-white/10 p-3">
-                  <div className="text-xl font-extrabold text-white">3</div>
-                  <div className="text-[11px] text-zinc-400 leading-tight">чел в команде</div>
-                </div>
               </div>
 
               <div className="relative mt-5 space-y-2 text-sm">
                 <a href={`tel:${profile.phone}`} className="flex items-center justify-between rounded-xl bg-zinc-800 border border-white/10 px-4 py-3 text-zinc-300 hover:bg-zinc-700 transition"><span>📞 {profile.phone}</span><span className="text-xs text-zinc-500">телефон</span></a>
-                <a href={`mailto:${profile.email}`} className="flex items-center justify-between rounded-xl bg-white text-black px-4 py-3 font-medium"><span>✉️ {profile.email}</span><span className="text-xs bg-black text-white px-2 py-1 rounded-full">предпочитаемый</span></a>
+                <a href={`mailto:${profile.email}`} className="flex items-center justify-between rounded-xl bg-white text-black px-4 py-3 font-medium border border-zinc-200"><span>✉️ {profile.email}</span><span className="text-xs bg-black text-white px-2 py-1 rounded-full">предпочитаемый</span></a>
                 <div className="flex items-center gap-2 rounded-xl bg-zinc-800 border border-white/10 px-4 py-3 text-zinc-300 text-xs">📍 Тольятти • {profile.employment} • {profile.format}</div>
               </div>
 
-              <div className="relative mt-5 flex gap-2">
+              <div className="relative mt-5 flex gap-2 no-print">
                 <button onClick={onContact} className="flex-1 text-center py-2.5 rounded-xl bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white font-semibold text-sm">Написать</button>
                 <a href={profile.github} target="_blank" className="flex-1 text-center py-2.5 rounded-xl bg-white/10 border border-white/15 text-white font-medium text-sm">GitHub</a>
               </div>
@@ -180,9 +207,9 @@ function Hero({ onContact }: { onContact: () => void }) {
 function SectionTitle({ kicker, title, desc }: { kicker: string; title: string; desc?: string }) {
   return (
     <div className="mb-6">
-      <div className="text-[11px] tracking-[0.18em] text-violet-400 font-semibold">{kicker}</div>
+      <div className="text-[11px] tracking-[0.18em] text-violet-400 font-semibold print:text-violet-700">{kicker}</div>
       <h2 className="text-[28px] sm:text-[32px] font-bold tracking-tight text-white mt-1">{title}</h2>
-      {desc && <p className="text-sm text-zinc-400 mt-2 max-w-[70ch]">{desc}</p>}
+      {desc && <p className="text-sm text-zinc-400 mt-2 max-w-[70ch] print:text-zinc-600">{desc}</p>}
     </div>
   )
 }
@@ -212,31 +239,31 @@ function ExperienceSection() {
     <section id="experience" className="max-w-[1120px] mx-auto px-4 sm:px-6 py-10">
       <SectionTitle kicker="CAREER" title="Опыт работы — 9 лет 1 месяц" desc="От медицинского симулятора на Unity до высоконагруженных Flutter-приложений и Go-микросервисов." />
       <div className="relative">
-        <div className="absolute left-4 top-0 bottom-0 w-px bg-gradient-to-b from-violet-500/50 via-white/10 to-transparent hidden sm:block" />
+        <div className="absolute left-4 top-0 bottom-0 w-px bg-gradient-to-b from-violet-500/50 via-white/10 to-transparent hidden sm:block print:hidden" />
         <div className="space-y-4">
           {experiences.map(e => (
             <div key={e.company + e.period} className="relative sm:pl-10">
-              <div className="hidden sm:block absolute left-[11px] top-6 w-2.5 h-2.5 rounded-full bg-violet-500 shadow-[0_0_0_6px_rgba(139,92,246,0.15)]" />
+              <div className="hidden sm:block absolute left-[11px] top-6 w-2.5 h-2.5 rounded-full bg-violet-500 shadow-[0_0_0_6px_rgba(139,92,246,0.15)] print:hidden" />
               <div className="rounded-2xl bg-zinc-900 border border-white/10 p-5 hover:border-white/15 transition">
                 <div className="flex flex-wrap items-start justify-between gap-3">
                   <div>
                     <div className="flex items-center gap-2">
                       <h3 className="text-white font-semibold">{e.company}</h3>
-                      {e.url && <a href={e.url} target="_blank" className="text-xs text-violet-400 hover:text-violet-300 underline">↗</a>}
+                      {e.url && <a href={e.url} target="_blank" className="text-xs text-violet-400 hover:text-violet-300 underline print:text-violet-700">↗</a>}
                     </div>
                     {e.location && <div className="text-xs text-zinc-500">{e.location}</div>}
                     <div className="text-sm text-violet-300 font-medium mt-1">{e.role}</div>
                     <div className="text-xs text-zinc-500 mt-1">{e.description}</div>
                   </div>
                   <div className="text-right shrink-0">
-                    <div className="text-xs px-2.5 py-1 rounded-full bg-white text-black font-medium inline-block">{e.period}</div>
+                    <div className="text-xs px-2.5 py-1 rounded-full bg-white text-black font-medium inline-block border border-zinc-200">{e.period}</div>
                     <div className="text-[11px] text-zinc-500 mt-1 text-right">{e.duration}</div>
                   </div>
                 </div>
                 {e.bullets.length > 0 && (
                   <ul className="mt-3 grid sm:grid-cols-2 gap-1.5">
                     {e.bullets.map(b => (
-                      <li key={b} className="text-xs text-zinc-400 flex gap-2"><span className="text-violet-400 mt-0.5">•</span><span>{b}</span></li>
+                      <li key={b} className="text-xs text-zinc-400 flex gap-2 print:text-zinc-700"><span className="text-violet-400 mt-0.5 print:text-violet-700">•</span><span>{b}</span></li>
                     ))}
                   </ul>
                 )}
@@ -257,22 +284,23 @@ function ProjectCard({ p }: { p: typeof projects[0] }) {
           <h3 className="text-white font-semibold leading-tight">{p.title}</h3>
           <div className="text-xs text-zinc-400 mt-1">{p.subtitle}</div>
           <div className="text-xs text-violet-300 mt-1">{p.role}</div>
+          {p.period && <div className="text-[11px] text-zinc-500 mt-1">{p.period}</div>}
         </div>
-        {p.featured && <span className="text-[10px] tracking-widest px-2 py-1 rounded-full bg-violet-600 text-white font-bold shrink-0">FEATURED</span>}
+        {p.featured && <span className="text-[10px] tracking-widest px-2 py-1 rounded-full bg-violet-600 text-white font-bold shrink-0 border border-violet-500">FEATURED</span>}
       </div>
       <ul className="mt-3 space-y-1.5">
         {p.highlights.map(h => (
-          <li key={h} className="text-xs text-zinc-300 flex gap-2"><span className="text-violet-400">—</span><span>{h}</span></li>
+          <li key={h} className="text-xs text-zinc-300 flex gap-2 print:text-zinc-700"><span className="text-violet-400 print:text-violet-700">—</span><span>{h}</span></li>
         ))}
       </ul>
-      {p.result && <div className="mt-3 text-xs px-3 py-2 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-300">✓ {p.result}</div>}
+      {p.result && <div className="mt-3 text-xs px-3 py-2 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 print:text-emerald-800 print:bg-emerald-50">✓ {p.result}</div>}
       <div className="mt-3 flex flex-wrap gap-1.5">
-        {p.stack.map(s => <span key={s} className="text-[11px] px-2 py-1 rounded-full bg-white/5 border border-white/10 text-zinc-400">{s}</span>)}
+        {p.stack.map(s => <span key={s} className="text-[11px] px-2 py-1 rounded-full bg-white/5 border border-white/10 text-zinc-400 print:bg-zinc-50 print:text-zinc-700 print:border-zinc-300">{s}</span>)}
       </div>
       {p.links && (
         <div className="mt-3 flex flex-wrap gap-2">
           {p.links.map(l => (
-            <a key={l} href={l} target="_blank" className="text-xs text-violet-400 hover:text-violet-300 underline break-all">{l.replace(/^https?:\/\//,"")}</a>
+            <a key={l} href={l} target="_blank" className="text-xs text-violet-400 hover:text-violet-300 underline break-all print:text-violet-700">{l.replace(/^https?:\/\//,"")}</a>
           ))}
         </div>
       )}
@@ -280,17 +308,35 @@ function ProjectCard({ p }: { p: typeof projects[0] }) {
   )
 }
 
-function ProjectsSection() {
+function ProjectsSection({ onPrint }: { onPrint: () => void }) {
   const [tab, setTab] = useState<"main" | "pet">("main")
+  const allProjects = [...projects, ...petProjects]
   return (
     <section id="projects" className="max-w-[1120px] mx-auto px-4 sm:px-6 py-10">
       <SectionTitle kicker="PORTFOLIO" title="Проекты и кейсы" desc="8 коммерческих проектов + pet-исследования: офлайн AI, VPN, Jira-агрегатор, маркетплейсы." />
-      <div className="flex gap-2 mb-6">
+      <div className="flex gap-2 mb-6 no-print print:hidden">
         <button onClick={()=>setTab("main")} className={`px-4 py-2 rounded-full text-sm font-medium border transition ${tab==="main" ? "bg-white text-black border-white" : "bg-white/5 text-zinc-300 border-white/10 hover:bg-white/10"}`}>Коммерческие (8)</button>
         <button onClick={()=>setTab("pet")} className={`px-4 py-2 rounded-full text-sm font-medium border transition ${tab==="pet" ? "bg-white text-black border-white" : "bg-white/5 text-zinc-300 border-white/10 hover:bg-white/10"}`}>Pet-проекты (8)</button>
+        <div className="ml-auto hidden sm:flex gap-2">
+          <button onClick={onPrint} className="px-4 py-2 rounded-full bg-white/10 border border-white/10 text-zinc-300 text-sm">🖨️ Печать</button>
+        </div>
       </div>
-      <div className="grid md:grid-cols-2 gap-4">
-        {(tab==="main" ? projects : petProjects).map(p => <ProjectCard key={p.title} p={p as any} />)}
+      <div className="grid md:grid-cols-2 gap-4 print:hidden">
+        {(tab==="main" ? projects : petProjects).map(p => <ProjectCard key={p.title+"-"+tab} p={p as any} />)}
+      </div>
+      <div className="print-only">
+        <div className="text-xs font-bold tracking-widest text-zinc-700 mb-2">ВСЕ ПРОЕКТЫ — ДЛЯ ПЕЧАТИ / PDF (16)</div>
+        <div className="grid print-grid-2 gap-3">
+          {allProjects.map(p => (
+            <div key={"print-"+p.title} className="rounded-xl border border-zinc-300 p-3 print-card break-inside-avoid bg-white">
+              <div className="font-semibold text-zinc-900 text-[11pt] leading-tight">{p.title} <span className="font-normal text-zinc-600">— {p.subtitle}</span></div>
+              <div className="text-[8pt] text-zinc-600 mt-0.5">{p.role}{p.period ? ` • ${p.period}` : ""} • {p.stack.slice(0,5).join(" • ")}</div>
+              <ul className="mt-1.5 space-y-0.5">{p.highlights.slice(0,3).map(h=> <li key={h} className="text-[8pt] text-zinc-700">— {h}</li>)}</ul>
+              {p.result && <div className="text-[8pt] text-emerald-700 mt-1 font-medium">✓ {p.result}</div>}
+              {p.links?.[0] && <div className="text-[7pt] text-zinc-500 mt-1 break-all">{p.links[0].replace(/^https?:\/\//,"")}</div>}
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   )
@@ -303,17 +349,17 @@ function EducationSection() {
       <div className="grid sm:grid-cols-2 gap-4">
         {education.map(e => (
           <div key={e.year+e.spec} className="rounded-2xl bg-zinc-900 border border-white/10 p-5">
-            <div className="text-xs px-2 py-1 rounded-full bg-white text-black font-bold inline-block">{e.year}</div>
+            <div className="text-xs px-2 py-1 rounded-full bg-white text-black font-bold inline-block border border-zinc-200">{e.year}</div>
             <div className="text-white font-semibold mt-3">{e.place}</div>
-            <div className="text-sm text-zinc-400">{e.spec}</div>
+            <div className="text-sm text-zinc-400 print:text-zinc-600">{e.spec}</div>
             <div className="text-xs text-zinc-500 mt-1">{e.type}</div>
           </div>
         ))}
-        <div className="rounded-2xl bg-gradient-to-br from-violet-600 to-fuchsia-600 p-5 text-white">
+        <div className="rounded-2xl bg-gradient-to-br from-violet-600 to-fuchsia-600 p-5 text-white print:bg-white print:border print:border-zinc-300 print:text-zinc-900">
           <div className="text-sm font-bold">Навыки • Языки • Вождение</div>
           <div className="mt-3 flex flex-wrap gap-1.5">
             {["Русский — родной","English B1","Git","CI/CD","Code review","Управление командой","Права B","Свой автомобиль"].map(s=>(
-              <span key={s} className="text-xs px-2.5 py-1 rounded-full bg-white/20 border border-white/20">{s}</span>
+              <span key={s} className="text-xs px-2.5 py-1 rounded-full bg-white/20 border border-white/20 print:bg-zinc-50 print:border-zinc-300 print:text-zinc-700">{s}</span>
             ))}
           </div>
         </div>
@@ -326,30 +372,24 @@ function Footer({ onContact }: { onContact: () => void }) {
   return (
     <footer id="contacts" className="border-t border-white/10 bg-[#0a0a0c]">
       <div className="max-w-[1120px] mx-auto px-4 sm:px-6 py-10">
-        <div className="rounded-[24px] bg-gradient-to-br from-violet-600 via-fuchsia-600 to-indigo-600 p-[1px]">
-          <div className="rounded-[23px] bg-zinc-950 p-6 sm:p-8 flex flex-col lg:flex-row gap-6 justify-between">
+        <div className="rounded-[24px] bg-gradient-to-br from-violet-600 via-fuchsia-600 to-indigo-600 p-[1px] print-card">
+          <div className="rounded-[23px] bg-zinc-950 p-6 sm:p-8 flex flex-col lg:flex-row gap-6 justify-between print-bg-white">
             <div>
-              <h3 className="text-2xl font-bold text-white">Давайте делать продукт вместе</h3>
-              <p className="text-sm text-zinc-400 mt-2 max-w-[60ch]">Ищу команду, где важна архитектура, производительность и продуктовое мышление. Открыт к Fullstack/Mobile/Frontend ролям, удалённо и гибрид.</p>
-              <div className="mt-4 flex flex-wrap gap-2 text-sm">
+              <h3 className="text-2xl font-bold text-white print-text-white">Давайте делать продукт вместе</h3>
+              <p className="text-sm text-zinc-400 mt-2 max-w-[60ch] print:text-zinc-600">Ищу команду, где важна архитектура, производительность и продуктовое мышление. Открыт к Fullstack/Mobile/Frontend ролям, удалённо и гибрид.</p>
+              <div className="mt-4 flex flex-wrap gap-2 text-sm no-print">
                 <button onClick={onContact} className="px-5 py-3 rounded-full bg-white text-black font-semibold hover:bg-zinc-100 transition">Написать</button>
                 <a href={`tel:${profile.phone.replace(/[^+0-9]/g,"")}`} className="px-5 py-3 rounded-full bg-white/10 border border-white/15 text-white font-medium">{profile.phone}</a>
                 <a href={profile.github} target="_blank" className="px-5 py-3 rounded-full bg-violet-600 text-white font-semibold">GitHub</a>
               </div>
-            </div>
-            <div className="text-xs text-zinc-500 lg:text-right shrink-0">
-              <div className="text-white font-semibold text-sm">Андреев Сергей Андреевич</div>
-              <div>Тольятти • {profile.phone} • {profile.email}</div>
-              <div className="mt-2">Желаемая зарплата {profile.salary} на руки • Полная занятость</div>
-              <div className="mt-4 inline-flex gap-2">
-                <a href="#experience" className="px-3 py-1.5 rounded-full bg-white/10 border border-white/10 text-zinc-300 hover:bg-white/15">Опыт</a>
-                <a href="#projects" className="px-3 py-1.5 rounded-full bg-white/10 border border-white/10 text-zinc-300 hover:bg-white/15">Проекты</a>
-                <a href="#" onClick={(e)=>{e.preventDefault(); window.print()}} className="px-3 py-1.5 rounded-full bg-white text-black font-medium">Печать / PDF</a>
+              <div className="print-only text-xs text-zinc-700 mt-3 leading-relaxed">
+                <div>✉️ {profile.email} ★ предпочитаемый • 📞 {profile.phone} • ✈️ t.me/serchy_k</div>
+                <div>github.com/Serchyk • Тольятти • {profile.salary} на руки</div>
               </div>
             </div>
           </div>
         </div>
-        <div className="text-center text-xs text-zinc-600 mt-6">© {new Date().getFullYear()} Сергей Андреев • Сделано на React + TypeScript + Tailwind • Деплой на GitHub Pages • <a href={profile.github} className="underline hover:text-zinc-400">github.com/Serchyk</a></div>
+        <div className="text-center text-xs text-zinc-600 mt-6 print:text-zinc-500">© {new Date().getFullYear()} Сергей Андреев • React + TypeScript + Tailwind • github.com/Serchyk</div>
       </div>
     </footer>
   )
@@ -357,12 +397,16 @@ function Footer({ onContact }: { onContact: () => void }) {
 
 export default function App() {
   const [contactOpen, setContactOpen] = useState(false)
+
+  const handlePrint = () => window.print()
+
   return (
-    <div className="min-h-screen bg-[#08080a]">
-      <Header onContact={()=>setContactOpen(true)} />
-      <Hero onContact={()=>setContactOpen(true)} />
+    <div id="resume-root" className="min-h-screen bg-[#08080a] print-bg-white">
+      <PrintHeader />
+      <Header onContact={()=>setContactOpen(true)} onPrint={handlePrint} />
+      <Hero onContact={()=>setContactOpen(true)} onPrint={handlePrint} />
       <ExperienceSection />
-      <ProjectsSection />
+      <ProjectsSection onPrint={handlePrint} />
       <Skills />
       <EducationSection />
       <Footer onContact={()=>setContactOpen(true)} />

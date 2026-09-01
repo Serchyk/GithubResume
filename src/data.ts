@@ -89,6 +89,7 @@ export type Project = {
   highlights: string[]
   result?: string
   featured?: boolean
+  period?: string
 }
 
 export const projects: Project[] = [
@@ -101,6 +102,7 @@ export const projects: Project[] = [
     highlights: ["Чанковая загрузка 5 МБ с паузой/возобновлением","Refresh token без вылетов","Адаптив 1.4\"–12\" (Wear OS/планшеты)"],
     result: "Превью медиа −40%, пагинация в изолятах",
     featured: true,
+    period: "Январь 2026 — Июль 2026",
   },
   {
     title: "Универсальный VPN-клиент",
@@ -119,6 +121,7 @@ export const projects: Project[] = [
     stack: ["Flutter","Firestore","WebSockets","FCM","Animations"],
     highlights: ["Match-making с геоприоритетом (1.2с → 0.3с)","Real-time чат + локальная очередь","60 FPS на Snapdragon 6xx (const/repaintBoundary)"],
     result: "5 000 свайпов/мин пик",
+    period: "Март 2025 — Октябрь 2025",
   },
   {
     title: "Бекенд на Go",
@@ -144,6 +147,7 @@ export const projects: Project[] = [
     role: "Ведущий Flutter-разработчик",
     stack: ["Flutter","Clean Architecture","go_router","Dio/Retrofit","Firebase"],
     highlights: ["Auth phone/SMS/JWT, профиль, лента с фильтром","Календарь событий (QR, участники)","Обращения с файлами, Remote Config, Theming"],
+    period: "Июль 2023 — Октябрь 2025",
   },
   {
     title: "Robokot (AlexCat)",
@@ -151,6 +155,7 @@ export const projects: Project[] = [
     role: "Middle+ Flutter (Skolopendra)",
     stack: ["Flutter","GetX","WebSocket","Dio","audioplayers","wifi_scan"],
     highlights: ["Мультиплекс WebSocket (UUID v4, RESTORE_SESSION 10с)","SoftAP 192.168.4.22/config, WiFi 2.4GHz","Видеоняня TypedData + audioplayers BytesSource"],
+    period: "Август 2022 — Март 2023",
   },
   {
     title: "SREDA",
@@ -159,6 +164,7 @@ export const projects: Project[] = [
     role: "Senior Flutter Developer",
     stack: ["Flutter","GetIt","MobX","Dio","Hive","Clean Architecture"],
     highlights: ["Календарь 2016 ячеек (5-мин сетка), drag&drop, кластеризация","Workflow Jira Sprint/Backlog, пагинация","6 платформ, 39 эндпоинтов, 60 FPS при 100+ событиях"],
+    period: "Декабрь 2020 — Июнь 2021",
   },
 ]
 

@@ -5,9 +5,7 @@
   --font-mono: 'JetBrains Mono', ui-monospace, monospace;
 }
 
-html {
-  scroll-behavior: smooth;
-}
+html { scroll-behavior: smooth; }
 body {
   @apply bg-[#08080a] text-zinc-300 antialiased selection:bg-violet-500/30;
   font-family: var(--font-sans);
@@ -15,3 +13,108 @@ body {
 ::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-thumb { @apply bg-zinc-700 rounded-full; }
 ::-webkit-scrollbar-track { @apply bg-transparent; }
+
+.print-only { display: none !important; }
+.pdf-exporting { background: #fff !important; }
+
+/* pdf-export: светлая тема для html-to-image */
+.pdf-export {
+  background: #fff !important;
+  color: #111827 !important;
+}
+/* растягиваем контент на всю ширину */
+.pdf-export .max-w-\[1120px\] { max-width: 100% !important; }
+.pdf-export .px-4, .pdf-export .px-6 { padding-left: 16px !important; padding-right: 16px !important; }
+.pdf-export header, .pdf-export .no-print, .pdf-export .fixed { display: none !important; }
+.pdf-export .print-only { display: block !important; }
+.pdf-export .print\:hidden { display: none !important; }
+.pdf-export [style*="backdrop-filter"], .pdf-export .backdrop-blur { backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }
+/* тёмные фоны → белый */
+.pdf-export .bg-\[\#08080a\], .pdf-export .bg-\[\#0a0a0c\], .pdf-export .bg-zinc-950, .pdf-export .bg-zinc-900, .pdf-export .bg-\[\#0f0f12\], .pdf-export .bg-zinc-800, .pdf-export .bg-zinc-900\/60 { background: #fff !important; }
+.pdf-export .bg-white\/\[0\.06\] { background: #f1f5f9 !important; border: 1px solid #e2e8f0 !important; }
+/* текст */
+.pdf-export .text-white { color: #111827 !important; }
+.pdf-export .text-zinc-300 { color: #1e293b !important; }
+.pdf-export .text-zinc-400 { color: #334155 !important; }
+.pdf-export .text-zinc-500 { color: #475569 !important; }
+.pdf-export .text-violet-300, .pdf-export .text-violet-400, .pdf-export .text-fuchsia-400 { color: #5b21b6 !important; }
+/* бейджи */
+.pdf-export .bg-white { background: #f1f5f9 !important; color: #111827 !important; border: 1px solid #cbd5e1 !important; }
+.pdf-export .bg-black { background: #f1f5f9 !important; color: #111827 !important; border: 1px solid #cbd5e1 !important; }
+.pdf-export .bg-white\/10, .pdf-export .bg-white\/5, .pdf-export .bg-white\/15 { background: #f3f4f6 !important; border: 1px solid #e5e7eb !important; color: #111827 !important; }
+.pdf-export .bg-violet-600, .pdf-export .bg-gradient-to-br, .pdf-export .bg-gradient-to-r { background: #fff !important; color: #5b21b6 !important; border: 1.5px solid #7c3aed !important; }
+/* карточки */
+.pdf-export .rounded-2xl, .pdf-export .rounded-\[28px\], .pdf-export .rounded-\[24px\], .pdf-export .rounded-\[23px\] { background: #fff !important; border: 1px solid #e5e7eb !important; box-shadow: none !important; }
+/* h1 градиент */
+.pdf-export h1 span { background:none !important; background-image:none !important; -webkit-background-clip:unset !important; background-clip:unset !important; -webkit-text-fill-color:#111827 !important; color:#111827 !important; text-decoration:none !important; }
+.pdf-export h1 span::before, .pdf-export h1 span::after { display:none !important; }
+.pdf-export .bg-clip-text { -webkit-background-clip:unset !important; background-clip:unset !important; }
+.pdf-export .text-transparent { color:#111827 !important; -webkit-text-fill-color:#111827 !important; }
+.pdf-export .from-violet-400, .pdf-export .via-fuchsia-400, .pdf-export .to-indigo-400 { --tw-gradient-stops:initial !important; }
+.pdf-export .bg-emerald-500\/10 { background:#ecfdf5 !important; border:1px solid #6ee7b7 !important; }
+.pdf-export .text-emerald-300, .pdf-export .text-emerald-400 { color:#065f46 !important; }
+
+@media print {
+  @page { size: A4; margin: 5mm 5mm 8mm 5mm; }
+  html, body { background: #fff !important; color: #111827 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  body { font-size: 10pt; line-height: 1.45; }
+  /* убираем ограничение max-w чтобы секции занимали всю ширину A4 */
+  .max-w-\[1120px\] { max-width: 100% !important; }
+  .px-4, .px-6 { padding-left: 4px !important; padding-right: 4px !important; }
+  .py-10 { padding-top: 4mm !important; padding-bottom: 4mm !important; }
+  header, .no-print, .fixed { display: none !important; }
+  .print-only { display: block !important; }
+  .print\:hidden { display: none !important; }
+  /* светлая читаемая тема для печати */
+  .bg-\[\#08080a\], .bg-\[\#0a0a0c\], .bg-zinc-950, .bg-zinc-900, .bg-\[\#0f0f12\], .bg-zinc-800, .bg-zinc-900\/60 { background: #fff !important; }
+  .bg-white\/\[0\.06\] { background: #f1f5f9 !important; border: 1px solid #e2e8f0 !important; }
+  .backdrop-blur, [style*="backdrop-filter"] { backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }
+  .border-white\/10, .border-white\/15, .border-white\/5, .border-zinc-800 { border-color: #d1d5db !important; }
+  .text-white { color: #0f172a !important; }
+  .text-zinc-300 { color: #1e293b !important; }
+  .text-zinc-400 { color: #334155 !important; }
+  .text-zinc-500 { color: #475569 !important; }
+  .text-violet-300, .text-violet-400, .text-fuchsia-400, .text-indigo-400 { color: #4c1d95 !important; }
+  .text-violet-700 { color: #4c1d95 !important; }
+  /* бейджи — светлые */
+  .bg-white { background: #f1f5f9 !important; color: #0f172a !important; border: 1px solid #cbd5e1 !important; }
+  .bg-black { background: #f1f5f9 !important; color: #0f172a !important; border: 1px solid #cbd5e1 !important; }
+  .bg-white\/10, .bg-white\/5, .bg-white\/15, .bg-white\/\[0\.06\] { background: #f8fafc !important; border: 1px solid #e2e8f0 !important; color: #0f172a !important; }
+  .bg-violet-600, .bg-gradient-to-br, .bg-gradient-to-r { background: #fff !important; color: #4c1d95 !important; border: 1.5px solid #7c3aed !important; -webkit-print-color-adjust: exact; }
+  .bg-black.text-white, span.bg-black { background: #f1f5f9 !important; color: #0f172a !important; border: 1px solid #cbd5e1 !important; }
+  .bg-emerald-500\/10 { background: #ecfdf5 !important; border: 1px solid #6ee7b7 !important; }
+  .text-emerald-300, .text-emerald-400 { color: #065f46 !important; }
+  /* карточки — без скруглений для компактности, нормальные размеры */
+  .rounded-2xl, .rounded-\[28px\], .rounded-\[24px\], .rounded-\[23px\], .rounded-xl { box-shadow: none !important; border: 1px solid #e2e8f0 !important; background: #fff !important; border-radius: 6px !important; }
+  .rounded-full { border-radius: 999px !important; }
+  section, .rounded-2xl, .rounded-\[28px\] { break-inside: avoid; page-break-inside: avoid; }
+  /* заголовки крупнее */
+  h1 { font-size: 26pt !important; color: #0f172a !important; margin: 0 0 4mm !important; }
+  h1 span { background:none !important; background-image:none !important; -webkit-background-clip:unset !important; background-clip:unset !important; -webkit-text-fill-color:#0f172a !important; color:#0f172a !important; text-decoration:none !important; border:none !important; outline:none !important; }
+  h1 span::before, h1 span::after { display:none !important; content:none !important; }
+  .bg-clip-text { -webkit-background-clip:unset !important; background-clip:unset !important; }
+  .text-transparent { color:#0f172a !important; -webkit-text-fill-color:#0f172a !important; }
+  .from-violet-400, .via-fuchsia-400, .to-indigo-400, .from-violet-600, .to-fuchsia-600, .via-fuchsia-600, .to-indigo-600 { --tw-gradient-stops:initial !important; }
+  h2 { font-size: 14pt !important; color: #0f172a !important; margin: 0 0 3mm !important; }
+  h3 { font-size: 11pt !important; color: #0f172a !important; margin: 0 0 1mm !important; }
+  a { color: #0f172a !important; text-decoration: none !important; }
+  /* сетка проектов — 2 колонки на всю ширину */
+  .print-grid-2 { grid-template-columns: 1fr 1fr !important; gap: 12px !important; }
+  /* проектные карточки в печати — компактнее, крупнее текст */
+  .print-grid-2 > div { padding: 10px 12px !important; }
+  .print-grid-2 > div .font-semibold { font-size: 10pt !important; }
+  .print-grid-2 > div .text-\[8pt\], .print-grid-2 > div .text-\[10px\], .print-grid-2 > div .text-\[11px\] { font-size: 9pt !important; }
+  .print-grid-2 > div li { font-size: 9pt !important; }
+  /* секция навыков — крупнее чипы */
+  #skills .text-xs { font-size: 9pt !important; }
+  #skills .p-4 { padding: 10px !important; }
+  #skills .gap-4 { gap: 10px !important; }
+  /* опыт — нормальные размеры */
+  #experience .text-xs { font-size: 9pt !important; }
+  #experience .text-sm { font-size: 10pt !important; }
+  #experience .p-5 { padding: 10px 12px !important; }
+  #experience .space-y-4 > div { margin-bottom: 3mm !important; }
+  .print-text-white { color: #0f172a !important; }
+  .print-bg-white { background: #fff !important; }
+  .print-card { background: #fff !important; border: 1px solid #e2e8f0 !important; }
+}
